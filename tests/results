@@ -1,0 +1,217 @@
+rigel de localhost{fortin}167: cat res1
+9
+40
+0
+3
+40
+0
+5
+48
+21
+0
+rigel de localhost{fortin}168: ../compile/machine < res1
+Spinning Pile Driver v0.02a
+Taille de la section de code:
+Code:Machine demarree a l'adresse 0x0
+!!  PC=0x0  SP=0x0   !!    PUSH 3
+!!  PC=0x3  SP=0x2   !!    PUSH 5
+!!  PC=0x6  SP=0x4   !!    ADD
+!!  PC=0x7  SP=0x2   !!    WRITE %d
+output:8
+!!  PC=0x8  SP=0x2   !!    HALT
+Machine arretee a l'adresse 0x9
+rigel de localhost{fortin}169: sol < input2 > res2
+rigel de localhost{fortin}170: cat res2
+17
+40
+0
+3
+40
+0
+5
+48
+40
+0
+2
+54
+40
+0
+7
+50
+21
+0
+rigel de localhost{fortin}171: ../compile/machine < res2
+Spinning Pile Driver v0.02a
+Taille de la section de code:
+Code:Machine demarree a l'adresse 0x0
+!!  PC=0x0  SP=0x0   !!    PUSH 3
+!!  PC=0x3  SP=0x2   !!    PUSH 5
+!!  PC=0x6  SP=0x4   !!    ADD
+!!  PC=0x7  SP=0x2   !!    PUSH 2
+!!  PC=0xa  SP=0x4   !!    DIV
+!!  PC=0xb  SP=0x2   !!    PUSH 7
+!!  PC=0xe  SP=0x4   !!    MUL
+!!  PC=0xf  SP=0x2   !!    WRITE %d
+output:28
+!!  PC=0x10  SP=0x2   !!    HALT
+Machine arretee a l'adresse 0x11
+rigel de localhost{fortin}172: sol < input3 > res3
+rigel de localhost{fortin}173: cat res3
+29
+40
+0
+7
+40
+0
+2
+54
+40
+0
+3
+48
+40
+0
+1
+40
+0
+4e
+50
+4c
+40
+5
+dc
+40
+0
+6
+50
+4c
+21
+0
+rigel de localhost{fortin}174: ../compile/machine < res3
+Spinning Pile Driver v0.02a
+Taille de la section de code:
+Code:Machine demarree a l'adresse 0x0
+!!  PC=0x0  SP=0x0   !!    PUSH 7
+!!  PC=0x3  SP=0x2   !!    PUSH 2
+!!  PC=0x6  SP=0x4   !!    DIV
+!!  PC=0x7  SP=0x2   !!    PUSH 3
+!!  PC=0xa  SP=0x4   !!    ADD
+!!  PC=0xb  SP=0x2   !!    PUSH 1
+!!  PC=0xe  SP=0x4   !!    PUSH 78
+!!  PC=0x11  SP=0x6   !!    MUL
+!!  PC=0x12  SP=0x4   !!    SUB
+!!  PC=0x13  SP=0x2   !!    PUSH 1500
+!!  PC=0x16  SP=0x4   !!    PUSH 6
+!!  PC=0x19  SP=0x6   !!    MUL
+!!  PC=0x1a  SP=0x4   !!    SUB
+!!  PC=0x1b  SP=0x2   !!    WRITE %d
+output:-9072
+!!  PC=0x1c  SP=0x2   !!    HALT
+Machine arretee a l'adresse 0x1d
+rigel de localhost{fortin}175: sol < input4 > res4
+rigel de localhost{fortin}176: cat res4
+37
+40
+0
+3
+40
+0
+2
+4c
+40
+0
+7
+40
+0
+5
+48
+54
+40
+0
+2
+50
+40
+0
+3
+40
+9
+32
+50
+48
+40
+4
+cf
+4c
+40
+3
+6e
+48
+21
+0
+rigel de localhost{fortin}177: ../compile/machine < res4
+Spinning Pile Driver v0.02a
+Taille de la section de code:
+Code:Machine demarree a l'adresse 0x0
+!!  PC=0x0  SP=0x0   !!    PUSH 3
+!!  PC=0x3  SP=0x2   !!    PUSH 2
+!!  PC=0x6  SP=0x4   !!    SUB
+!!  PC=0x7  SP=0x2   !!    PUSH 7
+!!  PC=0xa  SP=0x4   !!    PUSH 5
+!!  PC=0xd  SP=0x6   !!    ADD
+!!  PC=0xe  SP=0x4   !!    DIV
+!!  PC=0xf  SP=0x2   !!    PUSH 2
+!!  PC=0x12  SP=0x4   !!    MUL
+!!  PC=0x13  SP=0x2   !!    PUSH 3
+!!  PC=0x16  SP=0x4   !!    PUSH 2354
+!!  PC=0x19  SP=0x6   !!    MUL
+!!  PC=0x1a  SP=0x4   !!    ADD
+!!  PC=0x1b  SP=0x2   !!    PUSH 1231
+!!  PC=0x1e  SP=0x4   !!    SUB
+!!  PC=0x1f  SP=0x2   !!    PUSH 878
+!!  PC=0x22  SP=0x4   !!    ADD
+!!  PC=0x23  SP=0x2   !!    WRITE %d
+output:6709
+!!  PC=0x24  SP=0x2   !!    HALT
+Machine arretee a l'adresse 0x25
+rigel de localhost{fortin}178: sol < input5 > res5
+rigel de localhost{fortin}179: cat res5
+21
+40
+6
+a
+40
+c
+8a
+48
+40
+23
+1b
+48
+40
+1d
+e6
+4c
+40
+0
+3
+48
+21
+0
+rigel de localhost{fortin}180: ../compile/machine < res5
+Spinning Pile Driver v0.02a
+Taille de la section de code:
+Code:Machine demarree a l'adresse 0x0
+!!  PC=0x0  SP=0x0   !!    PUSH 1546
+!!  PC=0x3  SP=0x2   !!    PUSH 3210
+!!  PC=0x6  SP=0x4   !!    ADD
+!!  PC=0x7  SP=0x2   !!    PUSH 8987
+!!  PC=0xa  SP=0x4   !!    ADD
+!!  PC=0xb  SP=0x2   !!    PUSH 7654
+!!  PC=0xe  SP=0x4   !!    SUB
+!!  PC=0xf  SP=0x2   !!    PUSH 3
+!!  PC=0x12  SP=0x4   !!    ADD
+!!  PC=0x13  SP=0x2   !!    WRITE %d
+output:6092
+!!  PC=0x14  SP=0x2   !!    HALT
+Machine arretee a l'adresse 0x15
+rigel de localhost{fortin}181: 
