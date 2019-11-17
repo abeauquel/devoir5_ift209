@@ -24,8 +24,10 @@
 Compile:
 	SAVE
 
-	mov 	x19,x0
-	mov 	x20,x1
+	mov 	x19,x0	//adresse du noeud racine
+	mov 	x27,x1	// adresse du tableau d'octets pour écrire le code compilé
+
+Compile3:
 
 	ldr		w20, [x19]	//type du noeud
 	add		x19, x19, 4
@@ -36,20 +38,22 @@ Compile:
 	adr 	x0,fmtPush
 	mov 	x1,x21
 	bl 		printf		// C'EST UN NOMBRE
+
+	mov		x0, 3		// Pour un push il y a 3 octets
+	bl 		AjouterOctet
+
 	bl 		CompileFin
 
 Compile10:
 
-
+	mov		x1, x27		// addresse du tableau binaire
 
 	add		x19, x19, 4
 	ldr		x0, [x19]	// address du noeud de gauche
-	mov		x1, x20
 	bl		Compile
 
 	add		x19, x19, 8
 	ldr		x0, [x19]		// +8 pour etre au noeud de droite
-	mov		x1, x20
 	bl		Compile
 
 	cmp	x21,1
@@ -60,6 +64,7 @@ Compile10:
 
 Compile11: 		//0 = ADD
 	adr 	x0,fmtADD
+	mov		x0, 1		// Pour un ADD, il y a 1 octet
 	bl 		printf
 	bl 		Compile15
 
@@ -74,18 +79,32 @@ Compile13:		// 2 = MUL
 	bl 		Compile15
 
 Compile14:		// 3 = DIV
+	//todo faire pop et push pour avoir le bon ordre dans la division
 	adr 	x0,fmtDIV
 	bl 		printf
 	bl 		Compile15
 
 Compile15:
 
+
 CompileFin:
-	mov x0, 0
-	mov x1, 0
+	adr		x19, nbOctet
+	ldr		x0, [x19]
+	mov 	x1, 0
 	RESTORE
 	ret
 
+//x0 nombre d'octet à ajouter
+AjouterOctet:
+	SAVE
+	adr		x19, nbOctet
+	ldr		x20, [x19]
+	add		x20, x20, x0
+	str 	x20, [x19]
+
+AjouterOctetFin:
+	RESTORE
+	ret
 .section ".rodata"
 fmtPush:		.asciz	"push : %d \n"
 fmtAddress:		.asciz	"Add : %x \n"
@@ -97,3 +116,5 @@ fmtDIV:			.asciz	"DIV \n"
 
 .section ".bss"
 temp:			.skip 4
+nbOctet:		.skip 4
+addressDebutTableau: .xword 0
