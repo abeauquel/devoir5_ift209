@@ -44,17 +44,14 @@ Compile3:
 
 	adr		x1,	instructionPUSH
 	ldrb	w0, [x1]
-TEST:
+
 	strb	w0,	[x27]
-	add		x27, x27, 1
 
 	mov		x0, 0
-	strb	w0,	[x27]
-	add		x27, x27, 1
+	strb	w0,	[x27, 1]
 
-	strb 	w21,[x27]
+	strb 	w21,[x27, 2]
 
-TEST2:
 	bl 		CompileFin
 
 Compile10:
@@ -79,8 +76,15 @@ Compile10:
 Compile11: 		//0 = ADD
 	adr 	x0,fmtADD
 	bl 		printf
+
 	mov		x0, 1		// Pour un ADD, il y a 1 octet
 	bl		AjouterOctet
+
+	adr		x1,	instructionADD
+	ldrb	w0, [x1]
+	add		x27, x27, 6	// addresse du tableau binaire + 6 octets des push precedent
+	strb	w0,	[x27]
+
 	bl 		Compile15
 
 Compile12:		// 1 = SUB
