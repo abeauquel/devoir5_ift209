@@ -42,18 +42,32 @@ Compile3:
 	mov		x0, 3		// Pour un push il y a 3 octets
 	bl 		AjouterOctet
 
+	adr		x1,	instructionPUSH
+	ldrb	w0, [x1]
+TEST:
+	strb	w0,	[x27]
+	add		x27, x27, 1
+
+	//mov		x0, 0
+	//strb	w0,	[x27]
+	//add		x27, x27, 1
+
+	//strb 	w21,[x27]
+	//add		x27, x27, 1
+
 	bl 		CompileFin
 
 Compile10:
 
-	mov		x1, x27		// addresse du tableau binaire
 
 	add		x19, x19, 4
 	ldr		x0, [x19]	// address du noeud de gauche
+	mov		x1, x27		// addresse du tableau binaire
 	bl		Compile
 
 	add		x19, x19, 8
 	ldr		x0, [x19]		// +8 pour etre au noeud de droite
+	mov		x1, x27		// addresse du tableau binaire
 	bl		Compile
 
 	cmp	x21,1
@@ -64,8 +78,9 @@ Compile10:
 
 Compile11: 		//0 = ADD
 	adr 	x0,fmtADD
-	mov		x0, 1		// Pour un ADD, il y a 1 octet
 	bl 		printf
+	mov		x0, 1		// Pour un ADD, il y a 1 octet
+	bl		AjouterOctet
 	bl 		Compile15
 
 Compile12:		// 1 = SUB
@@ -113,6 +128,12 @@ fmtADD:			.asciz	"ADD \n"
 fmtSUB:			.asciz	"SUB \n"
 fmtMUL:			.asciz	"MUL \n"
 fmtDIV:			.asciz	"DIV \n"
+instructionPUSH:	.byte 64
+instructionPOP:		.byte 68
+instructionADD:		.byte 72
+instructionSUB:		.byte 76
+instructionMUL:		.byte 80
+instructionDIV:		.byte 84
 
 .section ".bss"
 temp:			.skip 4
