@@ -48,13 +48,13 @@ TEST:
 	strb	w0,	[x27]
 	add		x27, x27, 1
 
-	//mov		x0, 0
-	//strb	w0,	[x27]
-	//add		x27, x27, 1
+	mov		x0, 0
+	strb	w0,	[x27]
+	add		x27, x27, 1
 
-	//strb 	w21,[x27]
-	//add		x27, x27, 1
+	strb 	w21,[x27]
 
+TEST2:
 	bl 		CompileFin
 
 Compile10:
@@ -67,7 +67,7 @@ Compile10:
 
 	add		x19, x19, 8
 	ldr		x0, [x19]		// +8 pour etre au noeud de droite
-	mov		x1, x27		// addresse du tableau binaire
+	add		x1, x27, 3	// addresse du tableau binaire + 3 octets du push precedent
 	bl		Compile
 
 	cmp	x21,1
