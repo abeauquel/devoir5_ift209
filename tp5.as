@@ -40,6 +40,18 @@ Compile:
 
 Compile10:
 
+
+
+	add		x19, x19, 4
+	ldr		x0, [x19]	// address du noeud de gauche
+	mov		x1, x20
+	bl		Compile
+
+	add		x19, x19, 8
+	ldr		x0, [x19]		// +8 pour etre au noeud de droite
+	mov		x1, x20
+	bl		Compile
+
 	cmp	x21,1
 	b.eq	Compile12
 	cmp	x21,2
@@ -67,17 +79,6 @@ Compile14:		// 3 = DIV
 	bl 		Compile15
 
 Compile15:
-
-	add		x19, x19, 4
-	ldr		x0, [x19]	// address du noeud de gauche
-	mov		x1, x20
-	bl		Compile
-
-	add		x19, x19, 8
-	ldr		x0, [x19]		// +8 pour etre au noeud de droite
-	mov		x1, x20
-	bl		Compile
-
 
 CompileFin:
 	mov x0, 0
