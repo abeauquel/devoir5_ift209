@@ -27,7 +27,7 @@ Compile:
 	mov 	x19,x0	//adresse du noeud racine
 	mov 	x27,x1	// adresse du tableau d'octets pour écrire le code compilé
 
-	// On annule l'instruction HALT pour le cote recursif
+	// On annule l'instruction HALT et WRITE pour le cote recursif
 	adr		x21, nbOctet
 	ldr		x20, [x21]
 	cmp		x20, xzr
@@ -35,7 +35,7 @@ Compile:
 	b.eq	Compile3	// si nboctet > 0 on a rien à annuler
 
 	// On retire 1 au compteur d'octet
-	mov		x0, 1
+	mov		x0, 2
 	bl		DiminuerDeUnOctet
 
 Compile3:
@@ -123,10 +123,13 @@ Compile14:		// 3 = DIV
 
 CompileFin:
 
+	adr		x1,	instructionWRITE
+	ldrb	w0, [x1]
+	strb	w0,	[x27]	// addresse du tableau binaire
 	adr		x1,	instructionHALT
 	ldrb	w0, [x1]
-	strb	w0,	[x27]	// addresse du tableau binaire + 6 octets des push precedent
-	mov 	x0, 1		// On ajoute un octet
+	strb	w0,	[x27, 1]	// addresse du tableau binaire + 1
+	mov 	x0, 2		// On ajoute 2 octets
 	bl		AjouterOctet
 
 	adr		x19, nbOctet
@@ -164,6 +167,7 @@ fmtSUB:			.asciz	"SUB \n"
 fmtMUL:			.asciz	"MUL \n"
 fmtDIV:			.asciz	"DIV \n"
 instructionHALT:	.byte 0
+instructionWRITE:	.byte 33
 instructionPUSH:	.byte 64
 instructionPOP:		.byte 68
 instructionADD:		.byte 72
