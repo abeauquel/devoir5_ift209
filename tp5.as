@@ -58,7 +58,7 @@ Compile3:
 	mov		x0, 3		// Pour un push il y a 3 octets
 	bl 		AjouterOctet
 
-	adr		x0, tableauBinaire
+	adr		x0, tableauBinaire		//Recupere l'address du tableau binaire
 	ldr		x27, [x0]
 
 	adr		x1,	instructionPUSH
@@ -83,12 +83,10 @@ Compile10:
 
 	add		x19, x19, 4
 	ldr		x0, [x19]	// address du noeud de gauche
-	mov		x1, x27		// addresse du tableau binaire
 	bl		Compile
 
 	add		x19, x19, 8
 	ldr		x0, [x19]		// +8 pour etre au noeud de droite
-	//add		x1, x27, 3	// addresse du tableau binaire + 3 octets du push precedent
 	bl		Compile
 
 	mov		x0, 1		// Annule la simulation d'ajout d'un octet
