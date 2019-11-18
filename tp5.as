@@ -30,7 +30,7 @@ Compile:
 	// On annule l'instruction HALT et WRITE pour le cote recursif
 	adr		x21, nbOctet
 	ldr		x20, [x21]
-
+TEST0:
 	cmp		x20, 0
 	b.eq	Compile2	// si nboctet > 0 on a rien à annuler
 
@@ -44,7 +44,7 @@ Compile2:
 	adr		x0, tableauBinaire
 	ldr		x20, [x0]
 	cmp		x20, 0
-	b.ne	Compile3	// si le tableau a deja ete initialise
+	b.ne	Compile3
 	str		x27, [x0]
 
 Compile3:
@@ -61,10 +61,10 @@ Compile3:
 
 	mov		x0, 3		// Pour un push il y a 3 octets
 	bl 		AjouterOctet
-
+TEST1:
 	adr		x0, tableauBinaire		//Recupere l'address du tableau binaire
 	ldr		x27, [x0]
-
+TEST2:
 	adr		x1,	instructionPUSH
 	ldrb	w0, [x1]
 	strb	w0,	[x27]		// Save de l'instruction, premier octet du push
