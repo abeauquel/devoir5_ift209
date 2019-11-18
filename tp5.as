@@ -32,11 +32,16 @@ Compile:
 	ldr		x20, [x21]
 	cmp		x20, xzr
 
-	b.eq	Compile3	// si nboctet > 0 on a rien à annuler
+	b.eq	Compile2	// si nboctet > 0 on a rien à annuler
 
 	// On retire 1 au compteur d'octet
 	mov		x0, 2
 	bl		DiminuerDeUnOctet
+	bl		Compile3
+Compile2:
+	// On initialise en memoire l'address du tableau binaire
+	adr		x0, tableauBinaire
+	str		x27, [x0]
 
 Compile3:
 
@@ -53,17 +58,22 @@ Compile3:
 	mov		x0, 3		// Pour un push il y a 3 octets
 	bl 		AjouterOctet
 
+	adr		x0, tableauBinaire
+	ldr		x27, [x0]
+
 	adr		x1,	instructionPUSH
 	ldrb	w0, [x1]
-
-	strb	w0,	[x27]
+	strb	w0,	[x27]		// Save de l'instruction, premier octet du push
 
 	mov		x0, 0
-	strb	w0,	[x27, 1]
+	strb	w0,	[x27, 1]	// Save de 0, deuxieme octet du push
 
-	strb 	w21,[x27, 2]
+	strb 	w21,[x27, 2]	// Save du nombre, troiseme octet du push
 
+	mov		x0,	3			//Incremente l'addresse du tableau binaire
+	bl	AvancerAdresseTableau
 	add		x27, x27, 3	//Incremente l'addresse du tableau binaire
+
 	bl 		CompileFin
 
 Compile10:
@@ -78,11 +88,14 @@ Compile10:
 
 	add		x19, x19, 8
 	ldr		x0, [x19]		// +8 pour etre au noeud de droite
-	add		x1, x27, 3	// addresse du tableau binaire + 3 octets du push precedent
+	//add		x1, x27, 3	// addresse du tableau binaire + 3 octets du push precedent
 	bl		Compile
 
-	mov		x0, 1
+	mov		x0, 1		// Annule la simulation d'ajout d'un octet
 	bl 		DiminuerDeUnOctet
+
+	adr		x0, tableauBinaire
+	ldr		x27, [x0]			// Recupere l'address du tableau binaire
 
 	cmp	x21,1
 	b.eq	Compile12
@@ -99,29 +112,63 @@ Compile11: 		//0 = ADD
 
 	adr		x1,	instructionADD
 	ldrb	w0, [x1]
-	add		x27, x27, 6	// addresse du tableau binaire + 6 octets des push precedent
+
 	strb	w0,	[x27]
-	add		x27, x27, 1
+	mov		x0,	1			//Incremente l'addresse du tableau binaire
+	bl	AvancerAdresseTableau
+
 	bl 		CompileFin
 
 Compile12:		// 1 = SUB
 	adr 	x0,fmtSUB
 	bl 		printf
+
+	mov		x0, 1		// Pour un SUB, il y a 1 octet
+	bl		AjouterOctet
+
+	adr		x1,	instructionSUB
+	ldrb	w0, [x1]
+	strb	w0,	[x27]
+	mov		x0,	1			//Incremente l'addresse du tableau binaire
+	bl	AvancerAdresseTableau
+
 	bl 		CompileFin
 
 Compile13:		// 2 = MUL
 	adr 	x0,fmtMUL
 	bl 		printf
+
+	mov		x0, 1		// Pour un MUL, il y a 1 octet
+	bl		AjouterOctet
+
+	adr		x1,	instructionMUL
+	ldrb	w0, [x1]
+	strb	w0,	[x27]
+	mov		x0,	1			//Incremente l'addresse du tableau binaire
+	bl	AvancerAdresseTableau
+
 	bl 		CompileFin
 
 Compile14:		// 3 = DIV
 	//todo faire pop et push pour avoir le bon ordre dans la division
 	adr 	x0,fmtDIV
 	bl 		printf
+
+	mov		x0, 1		// Pour un DIV, il y a 1 octet
+	bl		AjouterOctet
+
+	adr		x1,	instructionDIV
+	ldrb	w0, [x1]
+	strb	w0,	[x27]
+	mov		x0,	1			//Incremente l'addresse du tableau binaire
+	bl	AvancerAdresseTableau
+
 	bl 		CompileFin
 
-
 CompileFin:
+
+	adr		x0, tableauBinaire
+	ldr		x27, [x0]			// Recupere l'address du tableau binaire
 
 	adr		x1,	instructionWRITE
 	ldrb	w0, [x1]
@@ -158,6 +205,16 @@ DiminuerDeUnOctet:
 	RESTORE
 	ret
 
+//x0 : nombre d'octet à ajouter
+AvancerAdresseTableau:
+	SAVE
+	adr		x19, tableauBinaire
+	ldr		x20, [x19]
+	add		x20, x20, x0
+	str 	x20, [x19]
+	RESTORE
+	ret
+
 .section ".rodata"
 fmtPush:		.asciz	"push : %d \n"
 fmtAddress:		.asciz	"Add : %x \n"
@@ -178,4 +235,4 @@ instructionDIV:		.byte 84
 .section ".bss"
 temp:			.skip 4
 nbOctet:		.skip 4
-addressDebutTableau: .xword 0
+tableauBinaire: .xword	0
