@@ -30,17 +30,21 @@ Compile:
 	// On annule l'instruction HALT et WRITE pour le cote recursif
 	adr		x21, nbOctet
 	ldr		x20, [x21]
-	cmp		x20, xzr
 
+	cmp		x20, 0
 	b.eq	Compile2	// si nboctet > 0 on a rien à annuler
 
 	// On retire 1 au compteur d'octet
 	mov		x0, 2
 	bl		DiminuerDeUnOctet
 	bl		Compile3
+
 Compile2:
 	// On initialise en memoire l'address du tableau binaire
 	adr		x0, tableauBinaire
+	ldr		x20, [x0]
+	cmp		x20, 0
+	b.ne	Compile3	// si le tableau a deja ete initialise
 	str		x27, [x0]
 
 Compile3:
@@ -170,10 +174,10 @@ CompileFin:
 
 	adr		x1,	instructionWRITE
 	ldrb	w0, [x1]
-	strb	w0,	[x27]	// addresse du tableau binaire
+	//strb	w0,	[x27]	// addresse du tableau binaire
 	adr		x1,	instructionHALT
 	ldrb	w0, [x1]
-	strb	w0,	[x27, 1]	// addresse du tableau binaire + 1
+//	strb	w0,	[x27, 1]	// addresse du tableau binaire + 1
 	mov 	x0, 2		// On ajoute 2 octets
 	bl		AjouterOctet
 
