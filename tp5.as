@@ -54,7 +54,7 @@ Compile3:
 
 	ldr		w20, [x19]	//type du noeud
 	add		x19, x19, 4
-	ldr 	w21, [x19]	// valeur du noeud
+	ldrh 	w21, [x19]	// valeur du noeud
 
 	cmp 	x20, 0
 	b.ne	Compile10	// si ce n'est pas un nombre
@@ -63,21 +63,22 @@ Compile3:
 	bl 		printf		// C'EST UN NOMBRE
 
 
-TEST1:
+
 	adr		x0, tableauBinaire		//Recupere l'address du tableau binaire
 	ldr		x27, [x0]
-TEST2:
+
 	adr		x1,	instructionPUSH
 	ldrb	w0, [x1]
 	strb	w0,	[x27]		// Save de l'instruction, premier octet du push
 
 	//todo gerer pour les nombres superieurs à 2^8, ils utilisent le deuxieme octet
+	//On recupere la valeur du nombre supp à 2^8
+	lsr 	x0, x21, 8
 	add		x27, x27, 1
-	mov		x0, 0
+	//mov		x0, 0
 	strb	w0,	[x27]	// Save de 0, deuxieme octet du push
 
 	add		x27, x27, 1
-
 	strb 	w21,[x27]	// Save du nombre, troiseme octet du push
 
 	mov		x0,	3			//Incremente l'addresse du tableau binaire
